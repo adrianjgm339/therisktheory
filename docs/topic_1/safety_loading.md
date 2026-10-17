@@ -4,7 +4,7 @@
 
 **Status:** Experimental — pending independent human validation
 
-**Reference:** Kaas, R., Goovaerts, M., Dhaene, J., and Denuit, M. (2008). *Modern Actuarial Risk Theory: Using R*, 2nd edition, Springer. *Modern Actuarial Risk Theory: Using R*, 2nd edition, Springer.
+**Reference:** Kaas, R., Goovaerts, M., Dhaene, J., and Denuit, M. (2008). *Modern Actuarial Risk Theory: Using R*, 2nd edition, Springer.
 
 ## 1. Scope
 
