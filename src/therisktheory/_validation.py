@@ -14,6 +14,40 @@ if TYPE_CHECKING:
 _NUMERIC_KINDS = frozenset("iuf")
 
 
+def as_real_array(
+    value: npt.ArrayLike, name: str, *, allow_inf: bool = False
+) -> npt.NDArray[np.float64]:
+    """Returns ``value`` as a float64 array of real numbers.
+
+    Args:
+        value: Scalar or array-like of real numbers.
+        name: Parameter name used in the error messages.
+        allow_inf: Whether infinite values are accepted.
+
+    Returns:
+        The input as a float64 array (0-d for scalar inputs).
+
+    Raises:
+        TypeError: If ``value`` is not made of real numbers.
+        ValueError: If any element is NaN, or infinite when ``allow_inf`` is
+            false.
+    """
+    try:
+        array = np.asarray(value)
+    except ValueError as error:  # e.g. ragged nested lists
+        raise TypeError(f"{name} must be a real number or array") from error
+    if array.dtype.kind not in _NUMERIC_KINDS:
+        raise TypeError(
+            f"{name} must be a real number or array, got dtype {array.dtype}"
+        )
+    array = array.astype(np.float64, copy=False)
+    if np.any(np.isnan(array)):
+        raise ValueError(f"{name} must not be NaN")
+    if not allow_inf and np.any(np.isinf(array)):
+        raise ValueError(f"{name} must be finite")
+    return array
+
+
 def as_nonnegative_finite_array(
     value: npt.ArrayLike, name: str
 ) -> npt.NDArray[np.float64]:
@@ -30,19 +64,31 @@ def as_nonnegative_finite_array(
         TypeError: If ``value`` is not made of real numbers.
         ValueError: If any element is NaN, infinite or negative.
     """
-    try:
-        array = np.asarray(value)
-    except ValueError as error:  # e.g. ragged nested lists
-        raise TypeError(f"{name} must be a real number or array") from error
-    if array.dtype.kind not in _NUMERIC_KINDS:
-        raise TypeError(
-            f"{name} must be a real number or array, got dtype {array.dtype}"
-        )
-    array = array.astype(np.float64, copy=False)
-    if not np.all(np.isfinite(array)):
-        raise ValueError(f"{name} must be finite")
+    array = as_real_array(value, name)
     if np.any(array < 0):
         raise ValueError(f"{name} must be non-negative")
+    return array
+
+
+def as_probability_array(
+    value: npt.ArrayLike, name: str
+) -> npt.NDArray[np.float64]:
+    """Returns ``value`` as a float64 array of probabilities in ``[0, 1]``.
+
+    Args:
+        value: Scalar or array-like of real numbers.
+        name: Parameter name used in the error messages.
+
+    Returns:
+        The input as a float64 array (0-d for scalar inputs).
+
+    Raises:
+        TypeError: If ``value`` is not made of real numbers.
+        ValueError: If any element is NaN or outside ``[0, 1]``.
+    """
+    array = as_real_array(value, name)
+    if np.any((array < 0) | (array > 1)):
+        raise ValueError(f"{name} must be between 0 and 1")
     return array
 
 

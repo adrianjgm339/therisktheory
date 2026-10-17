@@ -20,5 +20,11 @@ Using R*, 2nd ed. Springer. ISBN 978-3-540-70992-3, e-ISBN 978-3-540-70998-5.
 | `pure_premium`: net premium / equivalence principle | Section 5.3, principle (a), p. 119 |
 | `expected_value_premium`: `(1 + θ) E[S]` | Section 5.3, principle (b), p. 119 |
 | Properties of the expected value principle | Section 5.3.1, pp. 120–121; Table 5.1, p. 122 |
+| Martingale as the fortune of a gambler in fair games (Topic 2) | Remark 4.4.3, p. 97 |
+| Discrete-time ruin model, adjustment coefficient, eqs. (4.36)–(4.37) (Topic 2) | Section 4.5, p. 98 |
 
-Module: `therisktheory.solvency_pricing.premiums` (Topic 1).
+Modules: `therisktheory.solvency_pricing.premiums` (Topic 1) and
+`therisktheory.finetti_ruin.games` (Topic 2).
+
+The gambler's ruin probability (Topic 2) is justified by the derivation in
+`docs/topic_2/gambler_ruin.md`, not by a book reference.
