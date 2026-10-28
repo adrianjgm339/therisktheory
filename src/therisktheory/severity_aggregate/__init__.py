@@ -1,5 +1,11 @@
 """Claim severity, aggregate loss models, approximations, and simulation."""
 
+from .beta import (
+    beta_severity_cdf,
+    beta_severity_moments,
+    beta_severity_pdf,
+    beta_severity_ppf,
+)
 from .lognormal import (
     lognormal_severity_cdf,
     lognormal_severity_moments,
@@ -32,4 +38,8 @@ __all__ = [
     "weibull_severity_cdf",
     "weibull_severity_ppf",
     "weibull_severity_moments",
+    "beta_severity_pdf",
+    "beta_severity_cdf",
+    "beta_severity_ppf",
+    "beta_severity_moments",
 ]
