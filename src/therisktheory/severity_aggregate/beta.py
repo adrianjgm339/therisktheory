@@ -76,27 +76,21 @@ def beta_severity_pdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate the scaled Beta probability density.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite real severity.
-    alpha, beta : array_like
-        Strictly positive finite shape parameters.
-    maximum_loss : array_like, optional
-        Strictly positive upper severity bound, default 1.
+    Args:
+        x: Finite real severity.
+        alpha: Strictly positive finite shape parameters.
+        beta: Strictly positive finite shape parameters.
+        maximum_loss: Strictly positive upper severity bound, default 1.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 density, zero outside the support.
-        Scalar inputs produce zero-dimensional arrays.
+    Returns:
+        numpy.ndarray: Broadcast float64 density, zero outside the support.
+            Scalar inputs produce zero-dimensional arrays.
 
-    Notes
-    -----
-    The support is [0, maximum_loss].
-    Endpoint densities may legitimately be infinite when
-    the corresponding shape parameter is below one.
-    A finite density exceeding float64 raises OverflowError.
+    Notes:
+        The support is [0, maximum_loss].
+        Endpoint densities may legitimately be infinite when
+        the corresponding shape parameter is below one.
+        A finite density exceeding float64 raises OverflowError.
     """
     values = _finite_real(x, "x")
     a, b, maximum = _parameters(alpha, beta, maximum_loss)
@@ -174,24 +168,17 @@ def beta_severity_cdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate the scaled Beta cumulative distribution.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite severity; values outside support are allowed.
-    alpha, beta : array_like
-        Strictly positive finite shape parameters.
-    maximum_loss : array_like, optional
-        Positive upper bound, default 1.
+    Args:
+        x: Finite severity; values outside support are allowed.
+        alpha: Strictly positive finite shape parameters.
+        beta: Strictly positive finite shape parameters.
+        maximum_loss: Positive upper bound, default 1.
 
-    Returns
-    -------
-    numpy.ndarray
-        Float64 probabilities between zero and one.
+    Returns:
+        numpy.ndarray: Float64 probabilities between zero and one.
 
-    Raises
-    ------
-    FloatingPointError
-        Numerical evaluation of the incomplete Beta fails.
+    Raises:
+        FloatingPointError: Numerical evaluation of the incomplete Beta fails.
     """
     values = _finite_real(x, "x")
     a, b, maximum = _parameters(alpha, beta, maximum_loss)
@@ -225,27 +212,19 @@ def beta_severity_ppf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate scaled Beta quantiles.
 
-    Parameters
-    ----------
-    q : array_like
-        Finite probabilities in [0, 1].
-    alpha, beta : array_like
-        Strictly positive finite shape parameters.
-    maximum_loss : array_like, optional
-        Positive upper severity bound, default 1.
+    Args:
+        q: Finite probabilities in [0, 1].
+        alpha: Strictly positive finite shape parameters.
+        beta: Strictly positive finite shape parameters.
+        maximum_loss: Positive upper severity bound, default 1.
 
-    Returns
-    -------
-    numpy.ndarray
-        Quantiles between zero and maximum_loss.
-        q=0 gives zero; q=1 gives maximum_loss.
+    Returns:
+        numpy.ndarray: Quantiles between zero and maximum_loss.
+            q=0 gives zero; q=1 gives maximum_loss.
 
-    Raises
-    ------
-    ValueError
-        Probabilities outside [0, 1].
-    FloatingPointError
-        Numerical inverse Beta evaluation fails.
+    Raises:
+        ValueError: Probabilities outside [0, 1].
+        FloatingPointError: Numerical inverse Beta evaluation fails.
     """
     probabilities = _finite_real(q, "q")
 
@@ -279,25 +258,20 @@ def beta_severity_moments(
 ) -> dict[str, npt.NDArray[np.float64]]:
     """Calculate mean, variance and second raw moment.
 
-    Parameters
-    ----------
-    alpha, beta : array_like
-        Strictly positive finite shape parameters.
-    maximum_loss : array_like, optional
-        Strictly positive upper severity bound.
+    Args:
+        alpha: Strictly positive finite shape parameters.
+        beta: Strictly positive finite shape parameters.
+        maximum_loss: Strictly positive upper severity bound.
 
-    Returns
-    -------
-    dict[str, numpy.ndarray]
-        Keys: mean, variance, second_raw_moment.
-        Values are broadcast float64 NumPy arrays.
+    Returns:
+        dict[str, numpy.ndarray]: Keys: mean, variance, second_raw_moment.
+            Values are broadcast float64 NumPy arrays.
 
-    Notes
-    -----
-    All three moments are mathematically finite.
-    Log-domain calculations reduce intermediate overflow
-    for large scales and large shape parameters.
-    Unrepresentable finite moments raise OverflowError.
+    Notes:
+        All three moments are mathematically finite.
+        Log-domain calculations reduce intermediate overflow
+        for large scales and large shape parameters.
+        Unrepresentable finite moments raise OverflowError.
     """
     a, b, maximum = _parameters(alpha, beta, maximum_loss)
 
@@ -320,9 +294,19 @@ def beta_severity_moments(
 
         logs = {
             "mean": (log_m + log_a - log_total),
-            "variance": (2.0 * log_m + log_a + log_b - 2.0 * log_total - log_total_plus_one),
+            "variance": (
+                2.0 * log_m
+                + log_a
+                + log_b
+                - 2.0 * log_total
+                - log_total_plus_one
+            ),
             "second_raw_moment": (
-                2.0 * log_m + log_a + log_a_plus_one - log_total - log_total_plus_one
+                2.0 * log_m
+                + log_a
+                + log_a_plus_one
+                - log_total
+                - log_total_plus_one
             ),
         }
 

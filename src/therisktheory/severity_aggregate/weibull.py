@@ -87,29 +87,20 @@ def weibull_severity_pdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate Weibull probability density.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite real severity, including values below support.
-    shape : array_like
-        Strictly positive Weibull shape k.
-    scale : array_like
-        Strictly positive Weibull scale lambda.
+    Args:
+        x: Finite real severity, including values below support.
+        shape: Strictly positive Weibull shape k.
+        scale: Strictly positive Weibull scale lambda.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 PDF, 0-D for scalar inputs.
+    Returns:
+        numpy.ndarray: Broadcast float64 PDF, 0-D for scalar inputs.
 
-    Notes
-    -----
-    At x=0, the density is infinite for shape<1,
-    equal to 1/scale for shape=1, and zero for shape>1.
+    Notes:
+        At x=0, the density is infinite for shape<1,
+        equal to 1/scale for shape=1, and zero for shape>1.
 
-    Raises
-    ------
-    OverflowError
-        A mathematically finite density exceeds float64 range.
+    Raises:
+        OverflowError: A mathematically finite density exceeds float64 range.
     """
     values = _finite_real(x, "x")
     k, lam = _parameters(shape, scale)
@@ -158,19 +149,13 @@ def weibull_severity_cdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate Weibull cumulative probabilities.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite real severity.
-    shape : array_like
-        Strictly positive Weibull shape.
-    scale : array_like
-        Strictly positive Weibull scale.
+    Args:
+        x: Finite real severity.
+        shape: Strictly positive Weibull shape.
+        scale: Strictly positive Weibull scale.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast CDF, zero when x <= 0.
+    Returns:
+        numpy.ndarray: Broadcast CDF, zero when x <= 0.
     """
     values = _finite_real(x, "x")
     k, lam = _parameters(shape, scale)
@@ -200,25 +185,17 @@ def weibull_severity_ppf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate Weibull quantiles.
 
-    Parameters
-    ----------
-    q : array_like
-        Finite probabilities in [0, 1].
-    shape : array_like
-        Strictly positive Weibull shape.
-    scale : array_like
-        Strictly positive Weibull scale.
+    Args:
+        q: Finite probabilities in [0, 1].
+        shape: Strictly positive Weibull shape.
+        scale: Strictly positive Weibull scale.
 
-    Returns
-    -------
-    numpy.ndarray
-        Float64 quantiles: q=0 returns zero;
-        q=1 returns positive infinity.
+    Returns:
+        numpy.ndarray: Float64 quantiles: q=0 returns zero;
+            q=1 returns positive infinity.
 
-    Raises
-    ------
-    OverflowError
-        A finite quantile exceeds float64 range.
+    Raises:
+        OverflowError: A finite quantile exceeds float64 range.
     """
     probability = _finite_real(q, "q")
 
@@ -252,29 +229,24 @@ def weibull_severity_moments(
 ) -> dict[str, npt.NDArray[np.float64]]:
     """Return mean, variance, and second raw moment.
 
-    Parameters
-    ----------
-    shape : array_like
-        Strictly positive Weibull shape k.
-    scale : array_like
-        Strictly positive Weibull scale lambda.
+    Args:
+        shape: Strictly positive Weibull shape k.
+        scale: Strictly positive Weibull scale lambda.
 
-    Returns
-    -------
-    dict[str, numpy.ndarray]
-        Arrays named mean, variance, second_raw_moment.
+    Returns:
+        dict[str, numpy.ndarray]: Arrays named mean, variance,
+            second_raw_moment.
 
-    Notes
-    -----
-    All moments are mathematically finite for
-    positive finite shape and scale.
+    Notes:
+        All moments are mathematically finite for
+        positive finite shape and scale.
 
-    Log-Gamma evaluation avoids direct Gamma overflow.
-    For very large shape, a series is used to reduce
-    cancellation in the variance calculation.
+        Log-Gamma evaluation avoids direct Gamma overflow.
+        For very large shape, a series is used to reduce
+        cancellation in the variance calculation.
 
-    Mathematically finite but unrepresentable values
-    raise OverflowError.
+        Mathematically finite but unrepresentable values
+        raise OverflowError.
     """
     k, lam = _parameters(shape, scale)
     k, lam = _broadcast(k, lam)
@@ -294,7 +266,13 @@ def weibull_severity_moments(
 
         # Log-Gamma ratio expansion for small u.
         delta_series = (
-            u * u * (np.pi**2 / 6.0 - 2.0 * zeta(3.0, 1.0) * u + 3.5 * (np.pi**4 / 90.0) * u * u)
+            u
+            * u
+            * (
+                np.pi**2 / 6.0
+                - 2.0 * zeta(3.0, 1.0) * u
+                + 3.5 * (np.pi**4 / 90.0) * u * u
+            )
         )
 
         delta = np.where(
@@ -308,7 +286,9 @@ def weibull_severity_moments(
         log_results = {
             "mean": log_lam + log_g1,
             "second_raw_moment": (2.0 * log_lam + log_g2),
-            "variance": (2.0 * log_lam + 2.0 * log_g1 + np.log(np.expm1(delta))),
+            "variance": (
+                2.0 * log_lam + 2.0 * log_g1 + np.log(np.expm1(delta))
+            ),
         }
 
         results = {

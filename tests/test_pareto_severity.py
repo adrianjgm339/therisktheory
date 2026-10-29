@@ -28,7 +28,9 @@ def test_reference_moments():
         rtol=1e-13,
     )
 
-    assert all(isinstance(v, np.ndarray) and v.shape == () for v in result.values())
+    assert all(
+        isinstance(v, np.ndarray) and v.shape == () for v in result.values()
+    )
 
 
 @pytest.mark.parametrize(
@@ -121,7 +123,9 @@ def test_scalar_and_parameter_broadcast():
 
 
 def test_boundaries():
-    assert pareto_severity_pdf(100, alpha=2, minimum=100).item() == pytest.approx(0.02)
+    assert pareto_severity_pdf(
+        100, alpha=2, minimum=100
+    ).item() == pytest.approx(0.02)
 
     assert pareto_severity_cdf(100, alpha=2, minimum=100).item() == 0.0
 
@@ -212,7 +216,10 @@ def test_empty_arrays():
     ):
         assert fn(np.array([]), alpha=3, minimum=100).shape == (0,)
 
-    assert pareto_severity_moments(alpha=np.array([]), minimum=100)["mean"].size == 0
+    assert (
+        pareto_severity_moments(alpha=np.array([]), minimum=100)["mean"].size
+        == 0
+    )
 
 
 def test_finite_quantile_overflow():

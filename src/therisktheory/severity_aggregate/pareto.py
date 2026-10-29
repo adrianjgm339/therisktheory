@@ -80,28 +80,18 @@ def pareto_severity_pdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate the Pareto Type I probability density.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite real severity; density is zero below minimum.
-    alpha : array_like
-        Finite strictly positive shape.
-    minimum : array_like
-        Finite strictly positive minimum severity.
+    Args:
+        x: Finite real severity; density is zero below minimum.
+        alpha: Finite strictly positive shape.
+        minimum: Finite strictly positive minimum severity.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 density; scalar results are 0-D.
+    Returns:
+        numpy.ndarray: Broadcast float64 density; scalar results are 0-D.
 
-    Raises
-    ------
-    TypeError
-        An input contains non-real or nonnumeric values.
-    ValueError
-        Invalid parameters or incompatible shapes.
-    OverflowError
-        A finite density exceeds float64 range.
+    Raises:
+        TypeError: An input contains non-real or nonnumeric values.
+        ValueError: Invalid parameters or incompatible shapes.
+        OverflowError: A finite density exceeds float64 range.
     """
     values = _finite_real(x, "x")
     shape, lower = _parameters(alpha, minimum)
@@ -136,19 +126,13 @@ def pareto_severity_cdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate Pareto Type I cumulative probabilities.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite severity; CDF is zero at or below minimum.
-    alpha : array_like
-        Strictly positive shape.
-    minimum : array_like
-        Strictly positive minimum severity.
+    Args:
+        x: Finite severity; CDF is zero at or below minimum.
+        alpha: Strictly positive shape.
+        minimum: Strictly positive minimum severity.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 cumulative probabilities.
+    Returns:
+        numpy.ndarray: Broadcast float64 cumulative probabilities.
     """
     values = _finite_real(x, "x")
     shape, lower = _parameters(alpha, minimum)
@@ -178,27 +162,18 @@ def pareto_severity_ppf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate Pareto Type I quantiles.
 
-    Parameters
-    ----------
-    q : array_like
-        Finite probabilities in [0, 1].
-    alpha : array_like
-        Strictly positive shape.
-    minimum : array_like
-        Strictly positive minimum severity.
+    Args:
+        q: Finite probabilities in [0, 1].
+        alpha: Strictly positive shape.
+        minimum: Strictly positive minimum severity.
 
-    Returns
-    -------
-    numpy.ndarray
-        Float64 quantiles: q=0 gives minimum;
-        q=1 gives positive infinity.
+    Returns:
+        numpy.ndarray: Float64 quantiles: q=0 gives minimum;
+            q=1 gives positive infinity.
 
-    Raises
-    ------
-    ValueError
-        Probabilities outside [0, 1].
-    OverflowError
-        A finite quantile exceeds float64 range.
+    Raises:
+        ValueError: Probabilities outside [0, 1].
+        OverflowError: A finite quantile exceeds float64 range.
     """
     probabilities = _finite_real(q, "q")
 
@@ -236,26 +211,20 @@ def pareto_severity_moments(
 ) -> dict[str, npt.NDArray[np.float64]]:
     """Return Pareto mean, variance, and second raw moment.
 
-    Parameters
-    ----------
-    alpha : array_like
-        Strictly positive Pareto shape.
-    minimum : array_like
-        Strictly positive minimum severity.
+    Args:
+        alpha: Strictly positive Pareto shape.
+        minimum: Strictly positive minimum severity.
 
-    Returns
-    -------
-    dict[str, numpy.ndarray]
-        Arrays named mean, variance, second_raw_moment.
+    Returns:
+        dict[str, numpy.ndarray]: Arrays named mean, variance,
+            second_raw_moment.
 
-        Mean is infinite for alpha <= 1.
-        Variance and second raw moment are infinite
-        for alpha <= 2.
+            Mean is infinite for alpha <= 1.
+            Variance and second raw moment are infinite
+            for alpha <= 2.
 
-    Raises
-    ------
-    OverflowError
-        A mathematically finite moment exceeds float64 range.
+    Raises:
+        OverflowError: A mathematically finite moment exceeds float64 range.
     """
     shape, lower = _parameters(alpha, minimum)
     shape, lower = _broadcast(shape, lower)

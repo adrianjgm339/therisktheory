@@ -61,7 +61,11 @@ def test_complete_public_api():
     kinds = ("lognormal", "pareto", "weibull", "beta")
     operations = ("pdf", "cdf", "ppf", "moments")
 
-    expected = {f"{kind}_severity_{operation}" for kind in kinds for operation in operations}
+    expected = {
+        f"{kind}_severity_{operation}"
+        for kind in kinds
+        for operation in operations
+    }
 
     assert len(severity.__all__) == 16
     assert set(severity.__all__) == expected
@@ -77,11 +81,15 @@ def test_complete_public_api():
         parameters = list(signature.parameters.values())
 
         if name.endswith("_moments"):
-            assert all(parameter.kind == inspect.Parameter.KEYWORD_ONLY for parameter in parameters)
+            assert all(
+                parameter.kind == inspect.Parameter.KEYWORD_ONLY
+                for parameter in parameters
+            )
         else:
             assert parameters[0].name in ("x", "q")
             assert all(
-                parameter.kind == inspect.Parameter.KEYWORD_ONLY for parameter in parameters[1:]
+                parameter.kind == inspect.Parameter.KEYWORD_ONLY
+                for parameter in parameters[1:]
             )
 
         module = inspect.getmodule(fn)
@@ -93,7 +101,9 @@ def test_complete_public_api():
     "kind,params,scaled,reference,x,grid_max",
     CASES,
 )
-def test_independent_scipy_reference(kind, params, scaled, reference, x, grid_max):
+def test_independent_scipy_reference(
+    kind, params, scaled, reference, x, grid_max
+):
     """PDF, CDF, quantiles and moments agree with SciPy."""
     pdf = getattr(severity, f"{kind}_severity_pdf")
     cdf = getattr(severity, f"{kind}_severity_cdf")
@@ -140,7 +150,9 @@ def test_independent_scipy_reference(kind, params, scaled, reference, x, grid_ma
     "kind,params,scaled,reference,x,grid_max",
     CASES,
 )
-def test_scale_invariants_and_second_moment(kind, params, scaled, reference, x, grid_max):
+def test_scale_invariants_and_second_moment(
+    kind, params, scaled, reference, x, grid_max
+):
     """Scaling must preserve fundamental distribution identities."""
     pdf = getattr(severity, f"{kind}_severity_pdf")
     cdf = getattr(severity, f"{kind}_severity_cdf")
@@ -194,7 +206,9 @@ def test_scale_invariants_and_second_moment(kind, params, scaled, reference, x, 
     "kind,params,scaled,reference,x,grid_max",
     CASES,
 )
-def test_monotonicity_and_quantile_roundtrip(kind, params, scaled, reference, x, grid_max):
+def test_monotonicity_and_quantile_roundtrip(
+    kind, params, scaled, reference, x, grid_max
+):
     """CDF and PPF must be monotone and internally consistent."""
     cdf = getattr(severity, f"{kind}_severity_cdf")
     ppf = getattr(severity, f"{kind}_severity_ppf")

@@ -79,7 +79,10 @@ def test_moments_scipy(shape):
         rtol=1e-12,
     )
 
-    assert all(isinstance(value, np.ndarray) and value.shape == () for value in result.values())
+    assert all(
+        isinstance(value, np.ndarray) and value.shape == ()
+        for value in result.values()
+    )
 
 
 def test_exponential_special_case():
@@ -95,7 +98,9 @@ def test_exponential_special_case():
         rtol=1e-12,
     )
 
-    assert weibull_severity_pdf(0, shape=1, scale=100).item() == pytest.approx(0.01)
+    assert weibull_severity_pdf(0, shape=1, scale=100).item() == pytest.approx(
+        0.01
+    )
 
 
 def test_singular_and_zero_boundaries():
@@ -147,7 +152,9 @@ def test_vectorized_inputs():
 
     assert weibull_severity_ppf(0.5, shape=shape, scale=scale).shape == (3,)
 
-    assert weibull_severity_moments(shape=shape, scale=scale)["mean"].shape == (3,)
+    assert weibull_severity_moments(shape=shape, scale=scale)["mean"].shape == (
+        3,
+    )
 
 
 @pytest.mark.parametrize(
@@ -232,7 +239,9 @@ def test_empty_arrays():
     ):
         assert fn(np.array([]), shape=1, scale=1).shape == (0,)
 
-    assert weibull_severity_moments(shape=np.array([]), scale=1)["mean"].size == 0
+    assert (
+        weibull_severity_moments(shape=np.array([]), scale=1)["mean"].size == 0
+    )
 
 
 def test_density_overflows():

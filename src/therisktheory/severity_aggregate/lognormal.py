@@ -68,28 +68,18 @@ def lognormal_severity_pdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate the lognormal probability density.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite real severity. Density is zero when x <= 0.
-    mu : array_like
-        Finite mean of log severity.
-    sigma : array_like
-        Finite, strictly positive standard deviation of log severity.
+    Args:
+        x: Finite real severity. Density is zero when x <= 0.
+        mu: Finite mean of log severity.
+        sigma: Finite, strictly positive standard deviation of log severity.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 density; 0-D for scalar inputs.
+    Returns:
+        numpy.ndarray: Broadcast float64 density; 0-D for scalar inputs.
 
-    Raises
-    ------
-    TypeError
-        Input contains non-real or non-numeric values.
-    ValueError
-        Invalid parameters or incompatible input shapes.
-    OverflowError
-        A finite density exceeds float64 range.
+    Raises:
+        TypeError: Input contains non-real or non-numeric values.
+        ValueError: Invalid parameters or incompatible input shapes.
+        OverflowError: A finite density exceeds float64 range.
     """
     values = _real_finite(x, "x")
     location, spread = _parameters(mu, sigma)
@@ -128,19 +118,13 @@ def lognormal_severity_cdf(
 ) -> npt.NDArray[np.float64]:
     """Evaluate the cumulative lognormal distribution.
 
-    Parameters
-    ----------
-    x : array_like
-        Finite real severity; CDF is zero for x <= 0.
-    mu : array_like
-        Mean of log severity.
-    sigma : array_like
-        Strictly positive standard deviation of log severity.
+    Args:
+        x: Finite real severity; CDF is zero for x <= 0.
+        mu: Mean of log severity.
+        sigma: Strictly positive standard deviation of log severity.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 probabilities.
+    Returns:
+        numpy.ndarray: Broadcast float64 probabilities.
     """
     values = _real_finite(x, "x")
     location, spread = _parameters(mu, sigma)
@@ -169,25 +153,18 @@ def lognormal_severity_ppf(
 ) -> npt.NDArray[np.float64]:
     """Calculate lognormal quantiles for probabilities in [0, 1].
 
-    Parameters
-    ----------
-    q : array_like
-        Finite probability between zero and one, inclusive.
-    mu : array_like
-        Mean of log severity.
-    sigma : array_like
-        Strictly positive standard deviation of log severity.
+    Args:
+        q: Finite probability between zero and one, inclusive.
+        mu: Mean of log severity.
+        sigma: Strictly positive standard deviation of log severity.
 
-    Returns
-    -------
-    numpy.ndarray
-        Broadcast float64 quantiles. q=0 returns zero and
-        q=1 returns positive infinity.
+    Returns:
+        numpy.ndarray: Broadcast float64 quantiles. q=0 returns zero and
+            q=1 returns positive infinity.
 
-    Notes
-    -----
-    Very small positive quantiles may underflow to zero.
-    Unrepresentable finite upper quantiles raise OverflowError.
+    Notes:
+        Very small positive quantiles may underflow to zero.
+        Unrepresentable finite upper quantiles raise OverflowError.
     """
     probabilities = _real_finite(q, "q")
 
@@ -196,7 +173,9 @@ def lognormal_severity_ppf(
 
     location, spread = _parameters(mu, sigma)
 
-    probabilities, location, spread = _broadcast(probabilities, location, spread)
+    probabilities, location, spread = _broadcast(
+        probabilities, location, spread
+    )
 
     with np.errstate(
         over="ignore",
@@ -210,7 +189,9 @@ def lognormal_severity_ppf(
     invalid = ~np.isfinite(quantile) & (probabilities != 1.0)
 
     if np.any(invalid):
-        raise OverflowError("A finite lognormal quantile exceeds float64 range.")
+        raise OverflowError(
+            "A finite lognormal quantile exceeds float64 range."
+        )
 
     return np.asarray(quantile, dtype=np.float64)
 
@@ -222,28 +203,22 @@ def lognormal_severity_moments(
 ) -> dict[str, npt.NDArray[np.float64]]:
     """Return the first two raw moments and the variance.
 
-    Parameters
-    ----------
-    mu : array_like
-        Mean of log severity.
-    sigma : array_like
-        Strictly positive standard deviation of log severity.
+    Args:
+        mu: Mean of log severity.
+        sigma: Strictly positive standard deviation of log severity.
 
-    Returns
-    -------
-    dict
-        Three float64 NumPy arrays:
-        mean, variance, second_raw_moment.
+    Returns:
+        dict: Three float64 NumPy arrays:
+            mean, variance, second_raw_moment.
 
-    Notes
-    -----
-    Every lognormal moment is mathematically finite for
-    finite mu and finite positive sigma.
+    Notes:
+        Every lognormal moment is mathematically finite for
+        finite mu and finite positive sigma.
 
-    Variance uses a log-domain evaluation to reduce loss
-    of precision when sigma is small.
+        Variance uses a log-domain evaluation to reduce loss
+        of precision when sigma is small.
 
-    Unrepresentable moments raise OverflowError.
+        Unrepresentable moments raise OverflowError.
     """
     location, spread = _parameters(mu, sigma)
 
@@ -259,7 +234,10 @@ def lognormal_severity_moments(
 
         log_expm1 = np.where(
             spread_sq < 1e-4,
-            (2.0 * np.log(spread) + np.log1p(0.5 * spread_sq + spread_sq**2 / 6.0)),
+            (
+                2.0 * np.log(spread)
+                + np.log1p(0.5 * spread_sq + spread_sq**2 / 6.0)
+            ),
             spread_sq + np.log(-np.expm1(-spread_sq)),
         )
 
