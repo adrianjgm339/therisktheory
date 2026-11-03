@@ -2,7 +2,7 @@
 
 **Module:** `therisktheory.solvency_pricing.loadings`
 
-**Status:** Experimental — pending independent human validation
+**Status:** Experimental — peer feedback received; final maintainer approval pending
 
 **Reference:** Kaas, R., Goovaerts, M., Dhaene, J., and Denuit, M. (2008). *Modern Actuarial Risk Theory: Using R*, 2nd edition, Springer.
 
@@ -263,7 +263,7 @@ Automated verification performed on Windows with Python 3.13.3:
 
 This provides software testing evidence, not an independent actuarial proof.
 
-**Human mathematical validation: PENDING.**
+**Independent peer feedback: RECEIVED (2026-10-31, PR #4).** Final maintainer approval and official CI remain pending.
 
 Before approval, the assigned student must independently reproduce the calculations, check the stated assumptions against the cited reference and confirm the counterexamples.
 
