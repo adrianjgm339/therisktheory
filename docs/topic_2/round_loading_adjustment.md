@@ -6,10 +6,10 @@
 - `round_safety_loading`
 - `unit_step_adjustment_coefficient`
 
-**Status:** experimental — pending independent mathematical review.
+**Status:** experimental — independent peer feedback received; final maintainer approval pending.
 
 **Dependency:** Bladimir's Topic 2 gambler's ruin implementation,
-based on commit `8ffde17`.
+locally verified against PR #3 at `2680709` (still unmerged).
 
 ## 1. Scope
 
@@ -191,7 +191,7 @@ As of October 20, 2026, the local test suite reported
 Passing automated tests is not equivalent to independent
 mathematical validation.
 
-**Mathematical review status: PENDING.**
+**Peer review: FEEDBACK RECEIVED (2026-10-31, PR #5).** Final instructor approval and official CI remain pending.
 
 ## 9. Limitations
 

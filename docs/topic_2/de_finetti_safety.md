@@ -1,6 +1,6 @@
 # Topic 2: De Finetti Foundations and Unit-Step Safety Measures
 
-**Status:** experimental — pending independent mathematical review.
+**Status:** experimental — peer feedback received; final maintainer approval pending.
 
 ## 1. Scope and motivation
 
@@ -122,5 +122,5 @@ The latter source identifies the safety index with an adjustment
 coefficient in an exponential ruin bound. Its complete pricing
 model is not implemented here.
 
-Peer mathematical review: PENDING.
+Peer mathematical review: FEEDBACK RECEIVED (2026-10-31, PR #5).
 Maintainer mathematical validation: PENDING.
