@@ -28,7 +28,7 @@ DOI: [10.1007/978-3-540-70998-5](https://doi.org/10.1007/978-3-540-70998-5)
 | Mixed Poisson, structure variable, gamma mixture gives negative binomial (Topic 3) | Example 3.3.1, eqs. (3.13)–(3.15), pp. 45–46 |
 | mgf of a compound sum `m_S(t) = m_N(log m_X(t))` (Topic 3) | Section 3.2, eq. (3.5), p. 43 |
 | Sum of compound Poisson variables is compound Poisson (Topic 3) | Theorem 3.4.1, eq. (3.20), p. 47 |
-| Poisson process, intensity, infinitesimal increments (Topic 3) | Definition 4.2.1, eqs. (4.4)–(4.5), p. 89 |
+| Poisson process, intensity, infinitesimal increments (Topic 3) | Definition 4.2.1, eqs. (4.4)–(4.5), p. 90 |
 | Gamma posterior and predicted claim rate `(α + x_Σ)/(τ + T)` (Topic 3) | Section 8.5, eq. (8.59), p. 225 |
 
 Modules: `therisktheory.solvency_pricing.premiums` (Topic 1),

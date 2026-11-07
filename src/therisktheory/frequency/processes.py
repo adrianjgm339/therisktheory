@@ -2,7 +2,7 @@
 
 **Constant risk.** In a Poisson process with intensity ``lambda`` the
 probability of one claim in ``(t, t + dt)`` is ``lambda dt`` whatever the
-history (Kaas et al., 2008, Definition 4.2.1 and eq. (4.5), p. 89), and
+history (Kaas et al., 2008, Definition 4.2.1 and eq. (4.5), p. 90), and
 ``N(t) ~ Poisson(lambda t)``.
 
 **Variable basic probabilities and the Pólya process.** If the intensity is

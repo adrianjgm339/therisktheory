@@ -46,7 +46,7 @@ characteristic function is `φ_S(u) = P_N(φ_X(u))`.
 
 ## Constant risk and the Poisson process
 
-In a Poisson process with intensity `λ` (Definition 4.2.1, p. 89) the
+In a Poisson process with intensity `λ` (Definition 4.2.1, p. 90) the
 increments `N(t + h) - N(t) ~ Poisson(λh)` are independent and stationary,
 and the probability of a claim in `(t, t + dt)` is `λ dt` whatever happened
 before (eq. (4.5)). This is the constant-risk case: the instantaneous claim
