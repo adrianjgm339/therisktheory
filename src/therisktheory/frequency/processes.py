@@ -32,6 +32,7 @@ again compound Poisson (Theorem 3.4.1, p. 47).
 Reference:
     Kaas, R., Goovaerts, M., Dhaene, J. and Denuit, M. (2008). *Modern
     Actuarial Risk Theory: Using R*, 2nd ed. Springer.
+    https://doi.org/10.1007/978-3-540-70998-5
 """
 
 from __future__ import annotations
