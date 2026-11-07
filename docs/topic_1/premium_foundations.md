@@ -5,7 +5,8 @@ Functions: `expected_aggregate_loss`, `pure_premium` and
 Status: experimental.
 
 Page numbers refer to Kaas, Goovaerts, Dhaene and Denuit (2008), *Modern
-Actuarial Risk Theory: Using R*, 2nd edition, Springer.
+Actuarial Risk Theory: Using R*, 2nd edition, Springer,
+https://doi.org/10.1007/978-3-540-70998-5.
 
 ## Model and conditions
 
