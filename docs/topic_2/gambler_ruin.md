@@ -108,6 +108,7 @@ These relations are checked numerically in `tests/test_games.py`.
 - Kaas, R., Goovaerts, M., Dhaene, J. and Denuit, M. (2008). *Modern
   Actuarial Risk Theory: Using R*, 2nd ed. Springer. Remark 4.4.3, p. 97;
   Section 4.5, eqs. (4.33)–(4.37), p. 98.
+  https://doi.org/10.1007/978-3-540-70998-5
 
 The ruin probability itself is not taken from a book: it follows from the
 derivation above, which the tests also check against a direct numerical
