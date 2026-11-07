@@ -12,6 +12,8 @@ Prefer bibliographic metadata and stable links/DOIs where available.
 
 Kaas, R., Goovaerts, M., Dhaene, J. and Denuit, M. (2008). *Modern Actuarial Risk Theory:
 Using R*, 2nd ed. Springer. ISBN 978-3-540-70992-3, e-ISBN 978-3-540-70998-5.
+DOI: [10.1007/978-3-540-70998-5](https://doi.org/10.1007/978-3-540-70998-5)
+(metadata checked against Crossref).
 
 | Used for | Location |
 |---|---|
