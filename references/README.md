@@ -24,6 +24,13 @@ DOI: [10.1007/978-3-540-70998-5](https://doi.org/10.1007/978-3-540-70998-5)
 | Properties of the expected value principle | Section 5.3.1, pp. 120–121; Table 5.1, p. 122 |
 | Martingale as the fortune of a gambler in fair games (Topic 2) | Remark 4.4.3, p. 97 |
 | Discrete-time ruin model, adjustment coefficient, eqs. (4.36)–(4.37) (Topic 2) | Section 4.5, p. 98 |
+| Objectives of collective risk theory, scope of the ruin probability (Topic 5) | Section 4.1, pp. 87–88 |
+| Surplus process `U(t) = u + ct − S(t)`, ruin time and ruin probability (Topic 5) | Section 4.2, eqs. (4.1)–(4.3), pp. 89–90 |
+| Claim moments and safety loading `c = (1 + θ) λ μ_1` (Topic 5) | Eqs. (4.8)–(4.9), p. 91 |
+| Adjustment coefficient, `E[exp(−R(c − S))] = 1` (Topic 5) | Definition 4.3.1, eqs. (4.10)–(4.11), p. 91 |
+| Exponential claims, `R = θβ/(1 + θ)`; Lundberg's bound (Topic 5) | Example 4.3.3, eq. (4.13), and Theorem 4.3.4, p. 92 |
+| `θ ≤ 0` gives certain ruin (Topic 5) | Corollary 4.4.2, p. 97 |
+| Surplus at integer times `U(n) = u + G_1 + ... + G_n` (Topic 5) | Section 4.5, eq. (4.33), p. 98 |
 | Poisson and negative binomial claim numbers, overdispersion (Topic 3) | Section 3.3, p. 45; Section 3.9.4, eq. (3.74), p. 64; Table A, p. 368 |
 | Mixed Poisson, structure variable, gamma mixture gives negative binomial (Topic 3) | Example 3.3.1, eqs. (3.13)–(3.15), pp. 45–46 |
 | mgf of a compound sum `m_S(t) = m_N(log m_X(t))` (Topic 3) | Section 3.2, eq. (3.5), p. 43 |
@@ -32,8 +39,8 @@ DOI: [10.1007/978-3-540-70998-5](https://doi.org/10.1007/978-3-540-70998-5)
 | Gamma posterior and predicted claim rate `(α + x_Σ)/(τ + T)` (Topic 3) | Section 8.5, eq. (8.59), p. 225 |
 
 Modules: `therisktheory.solvency_pricing.premiums` (Topic 1),
-`therisktheory.finetti_ruin.games` (Topic 2) and `therisktheory.frequency`
-(Topic 3).
+`therisktheory.finetti_ruin.games` (Topic 2), `therisktheory.frequency`
+(Topic 3) and `therisktheory.collective_risk.process` (Topic 5).
 
 The gambler's ruin probability (Topic 2) is justified by the derivation in
 `docs/topic_2/gambler_ruin.md`, not by a book reference.
