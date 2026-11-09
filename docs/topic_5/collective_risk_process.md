@@ -115,6 +115,28 @@ simulation check for insolvency over `T` periods and for ruin estimates.
 | Pérez (safety equation, Lundberg's equation, adjustment coefficient) | `annual_result_generator(-R) = 1` |
 | Valera (reinsurance effects) | build the retained process with new `c` and claim moments |
 
+## Identities used and how each was verified
+
+Page numbers are the printed ones in Kaas et al. (2008). "By hand" means the
+author recomputed it with the numbers given; "test" names the automated
+check.
+
+| Identity | Source | Verified |
+|---|---|---|
+| `U(t) = u + ct − S(t)`, ruin time and `ψ(u) = Pr[T < ∞]` | eqs. (4.1)–(4.3), pp. 89–90 | by hand |
+| `S(t)` is compound Poisson with parameter `λt` | p. 90 (after eq. (4.7)) | test: simulated moments |
+| `m_S(r) = exp(λ(m_X(r) − 1))` for one period | p. 91 (text before eq. (4.11)); eq. (3.5), p. 43 | test: closed form for exponential claims |
+| `c = (1 + θ) λ μ_1` | eq. (4.9), p. 91 | by hand (c = 660); test against Topic 1 |
+| `κ_j(S(t)) = λ t μ_j`, hence `E[G] = θλμ_1 t`, `Var[G] = λtμ_2`, third central moment `−λtμ_3` | follows from `m_S` above: the cumulant generating function is `λt(m_X − 1)` | by hand (60 and 240 000); test: simulation |
+| `E[e^{rG(t)}] = e^{rct} exp(λt(m_X(−r) − 1))` | `m_S` above evaluated at `−r` with parameter `λt`; derivation in this note | tests: closed form, simulation, `E[e^{rG(3)}] = E[e^{rG(1)}]³` |
+| `1 + (1 + θ)μ_1 R = m_X(R)` and its equivalent `m_{c−S}(−R) = 1` | Definition 4.3.1, eqs. (4.10)–(4.11), p. 91 | by hand (both sides 1.1); test for 4 values of θ |
+| `R = θβ/(1 + θ)` for exponential claims | Example 4.3.3, eq. (4.13), p. 92 | by hand (R ≈ 0.000455); test |
+| `θ ≤ 0` implies `ψ(u) ≡ 1` | Corollary 4.4.2, p. 97 | by hand; test of the assumptions |
+| `ψ(u) = e^{−Ru}/(1 + θ)` for exponential claims (report only) | Example 4.4.4, eq. (4.32), p. 97 | used in the Spanish report, not in the code |
+| `2 E[G]/Var[G] = 2θμ_1/μ_2` is an upper bound for `R` | Example 4.5.2, p. 98 | joint test with #25 |
+| `U(n) = u + G_1 + … + G_n` | Section 4.5, eq. (4.33), p. 98 | test: simulated surplus |
+| `μ_2 ≥ μ_1²` and `μ_1 μ_3 ≥ μ_2²` for `X ≥ 0` | not from the book: Jensen and Cauchy-Schwarz (`E[X²]² ≤ E[X] E[X³]`) | tests: invalid moments rejected |
+
 ## Independent checks (`tests/test_collective_risk.py`)
 
 - `c` from `θ` equals the expected value premium of Topic 1, and `θ` from `c`
@@ -130,3 +152,14 @@ simulation check for insolvency over `T` periods and for ruin estimates.
   moment, and the simulated `U(4)` matches `E[U(4)]`.
 - The hypotheses: a loading `θ ≤ 0` is flagged.
 - Invalid inputs and overflow.
+
+## Joint tests with #25 (`tests/test_joint_collective_safety_equation.py`)
+
+- Pérez's `adjustment_coefficient` solves eq. (4.10). For θ = 0.05, 0.1, 0.5
+  and 2, its `R` makes `annual_result_generator` equal to 1 at `−R` and equals
+  `θβ/(1 + θ)`.
+- His `full_retention_adjustment`, `2θμ_1/μ_2`, equals `2 E[G]/Var[G]` from
+  `annual_result_moments`, the upper bound for `R` of Example 4.5.2.
+
+The tests are skipped when `collective_risk.safety_equation` is not in the
+branch and run once #25 is merged.
