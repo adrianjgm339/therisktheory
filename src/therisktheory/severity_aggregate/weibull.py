@@ -265,15 +265,9 @@ def weibull_severity_moments(
         delta_direct = log_g2 - 2.0 * log_g1
 
         # Log-Gamma ratio expansion for small u.
-        delta_series = (
-            u
-            * u
-            * (
-                np.pi**2 / 6.0
-                - 2.0 * zeta(3.0, 1.0) * u
-                + 3.5 * (np.pi**4 / 90.0) * u * u
-            )
-        )
+        series_core = np.pi**2 / 6.0 - 2.0 * zeta(3.0, 1.0) * u
+        series_core = series_core + 3.5 * (np.pi**4 / 90.0) * u * u
+        delta_series = u * u * series_core
 
         delta = np.where(
             k > 1000.0,
@@ -283,12 +277,13 @@ def weibull_severity_moments(
 
         log_lam = np.log(lam)
 
+        log_variance = 2.0 * log_lam + 2.0 * log_g1
+        log_variance = log_variance + np.log(np.expm1(delta))
+
         log_results = {
             "mean": log_lam + log_g1,
             "second_raw_moment": (2.0 * log_lam + log_g2),
-            "variance": (
-                2.0 * log_lam + 2.0 * log_g1 + np.log(np.expm1(delta))
-            ),
+            "variance": log_variance,
         }
 
         results = {

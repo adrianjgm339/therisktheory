@@ -292,22 +292,16 @@ def beta_severity_moments(
 
         log_a_plus_one = np.logaddexp(log_a, 0.0)
 
+        log_variance = 2.0 * log_m + log_a + log_b
+        log_variance = log_variance - 2.0 * log_total - log_total_plus_one
+
+        log_second_moment = 2.0 * log_m + log_a + log_a_plus_one
+        log_second_moment = log_second_moment - log_total - log_total_plus_one
+
         logs = {
             "mean": (log_m + log_a - log_total),
-            "variance": (
-                2.0 * log_m
-                + log_a
-                + log_b
-                - 2.0 * log_total
-                - log_total_plus_one
-            ),
-            "second_raw_moment": (
-                2.0 * log_m
-                + log_a
-                + log_a_plus_one
-                - log_total
-                - log_total_plus_one
-            ),
+            "variance": log_variance,
+            "second_raw_moment": log_second_moment,
         }
 
         results = {

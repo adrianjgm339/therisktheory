@@ -106,9 +106,9 @@ def test_moments_scipy(a, b, m):
         rtol=1e-12,
     )
 
-    assert all(
-        isinstance(v, np.ndarray) and v.shape == () for v in result.values()
-    )
+    arrays = tuple(result.values())
+    assert all(isinstance(v, np.ndarray) for v in arrays)
+    assert all(v.shape == () for v in arrays)
 
 
 def test_analytical_moments():

@@ -173,9 +173,8 @@ def lognormal_severity_ppf(
 
     location, spread = _parameters(mu, sigma)
 
-    probabilities, location, spread = _broadcast(
-        probabilities, location, spread
-    )
+    inputs = (probabilities, location, spread)
+    probabilities, location, spread = _broadcast(*inputs)
 
     with np.errstate(
         over="ignore",
@@ -189,9 +188,8 @@ def lognormal_severity_ppf(
     invalid = ~np.isfinite(quantile) & (probabilities != 1.0)
 
     if np.any(invalid):
-        raise OverflowError(
-            "A finite lognormal quantile exceeds float64 range."
-        )
+        message = "A finite lognormal quantile exceeds float64 range."
+        raise OverflowError(message)
 
     return np.asarray(quantile, dtype=np.float64)
 
@@ -232,12 +230,13 @@ def lognormal_severity_moments(
     ):
         spread_sq = spread * spread
 
+        small_spread_log = 2.0 * np.log(spread)
+        correction = np.log1p(0.5 * spread_sq + spread_sq**2 / 6.0)
+        small_spread_log = small_spread_log + correction
+
         log_expm1 = np.where(
             spread_sq < 1e-4,
-            (
-                2.0 * np.log(spread)
-                + np.log1p(0.5 * spread_sq + spread_sq**2 / 6.0)
-            ),
+            small_spread_log,
             spread_sq + np.log(-np.expm1(-spread_sq)),
         )
 
