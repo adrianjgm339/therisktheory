@@ -54,9 +54,7 @@ def _balanced_observations(
     return array
 
 
-def _finite_computation(
-    value: npt.ArrayLike, name: str
-) -> npt.NDArray[np.float64]:
+def _finite_result(value: npt.ArrayLike, name: str) -> npt.NDArray[np.float64]:
     """Reject nonfinite numerical results after a computation."""
     result = np.asarray(value, dtype=np.float64)
 
@@ -117,9 +115,8 @@ def credibility_weight(
         raise ValueError("epv and vhm must be non-negative")
 
     try:
-        count, process, hypothetical = np.broadcast_arrays(
-            count, process, hypothetical
-        )
+        inputs = (count, process, hypothetical)
+        count, process, hypothetical = np.broadcast_arrays(*inputs)
     except ValueError as error:
         raise ValueError("n, epv, and vhm have incompatible shapes") from error
 
@@ -193,7 +190,7 @@ def estimate_process_variance(
     with np.errstate(over="ignore", invalid="ignore"):
         result = np.var(data, axis=1, ddof=1).mean()
 
-    return _finite_computation(result, "EPV")
+    return _finite_result(result, "EPV")
 
 
 def estimate_hypothetical_mean_variance(
@@ -231,4 +228,4 @@ def estimate_hypothetical_mean_variance(
         epv = np.var(data, axis=1, ddof=1).mean()
         result = between - epv / n
 
-    return _finite_computation(result, "VHM")
+    return _finite_result(result, "VHM")
